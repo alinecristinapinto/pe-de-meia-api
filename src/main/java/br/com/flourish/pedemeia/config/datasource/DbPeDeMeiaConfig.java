@@ -25,7 +25,7 @@ import com.zaxxer.hikari.HikariDataSource;
 @Profile("!test")
 @Configuration
 @EnableTransactionManagement
-@ConfigurationProperties(prefix = "datasource.pedemeia.postgresql")
+@ConfigurationProperties(prefix = "datasource.dbpedemeia.postgresql")
 @EnableJpaRepositories(//
 		basePackages = "br.com.flourish.pedemeia.db.sql.pedemeia.repository", //
 		entityManagerFactoryRef = "pedemeiaEntityManager", //
@@ -33,19 +33,19 @@ import com.zaxxer.hikari.HikariDataSource;
 public class DbPeDeMeiaConfig extends HikariConfig {
 
 	@Bean(name = "pedemeiaDataSource")
-	public DataSource propostapjDataSourceFactory() {
+	public DataSource pedemeiaDataSourceFactory() {
 		return new HikariDataSource(this);
 	}
 
 	@PersistenceContext(unitName = "Teste")
 	@Bean(name = "pedemeiaEntityManager")
-	public LocalContainerEntityManagerFactoryBean propostaPJManagerFactory(EntityManagerFactoryBuilder builder) {
-		return builder.dataSource(propostapjDataSourceFactory()).persistenceUnit("Teste").properties(jpaProperties())
-				.packages("br.com.flourish.pedemeia.db.sql.propostapj.entity").build();
+	public LocalContainerEntityManagerFactoryBean pedemeiaManagerFactory(EntityManagerFactoryBuilder builder) {
+		return builder.dataSource(pedemeiaDataSourceFactory()).persistenceUnit("Teste").properties(jpaProperties())
+				.packages("br.com.flourish.pedemeia.db.sql.pedemeia.entity").build();
 	}
 
 	@Bean(name = "pedemeiaTransactionManager")
-	public PlatformTransactionManager propostaPJTransactionManagerFactory(
+	public PlatformTransactionManager pedemeiaTransactionManagerFactory(
 			@Qualifier("pedemeiaEntityManager") EntityManagerFactory em) {
 		return new JpaTransactionManager(em);
 	}
