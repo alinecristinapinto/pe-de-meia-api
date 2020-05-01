@@ -27,7 +27,6 @@ public class TextoFluxoController {
 	private TextoFluxoService service;
 	
 	private static final String SUCESSO = "Sucesso";
-	private static final String ERRO = "Erro";
 	
 	@GetMapping(value="/buscar/{nomeParametro}")
 	@ApiOperation(value="Busca os textos relacionados a um fluxo determinado pelo parâmetro")
@@ -42,11 +41,11 @@ public class TextoFluxoController {
 			response.setResult(texto);			
 		} catch(InvalidAttributeException ex) {
 			response.setStatus(HttpStatus.BAD_REQUEST.value());
-			response.setMessage(ERRO);
+			response.setMessage(ex.getMessage());
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
 		} catch(BusinessException ex) {
 			response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
-			response.setMessage(ERRO);
+			response.setMessage(ex.getMessage());
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
 		}
 		
