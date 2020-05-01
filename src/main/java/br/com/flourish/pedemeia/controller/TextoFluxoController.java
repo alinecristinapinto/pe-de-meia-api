@@ -22,11 +22,11 @@ public class TextoFluxoController {
 	@Autowired 
 	private TextoFluxoService service;
 	
-	@GetMapping(value="/buscar/{parametro}")
+	@GetMapping(value="/buscar/{nomeParametro}")
 	@ApiOperation(value="Busca os textos relacionados a um fluxo determinado pelo parâmetro")
-    public ResponseEntity<TextoFluxoResponse> buscar(@PathVariable @NotNull String parametro) {
+    public ResponseEntity<TextoFluxoResponse> buscar(@PathVariable @NotNull String nomeParametro) {
 		
-		return null;
+		return ResponseEntity.status(0).body(service.buscar(nomeParametro));
     }
 
 }

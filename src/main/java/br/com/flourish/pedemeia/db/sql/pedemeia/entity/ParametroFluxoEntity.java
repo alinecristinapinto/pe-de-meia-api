@@ -7,11 +7,21 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
-@Table(name="TBL_PARAMETRO_FLUXO", schema="dbo", catalog="ddleh83ugnm8mc")
+@Table(name="TBL_PARAMETRO_FLUXO")
 public class ParametroFluxoEntity {
 	
 	@Id
@@ -23,5 +33,6 @@ public class ParametroFluxoEntity {
 	private String descricao; 
 	
 	@OneToMany
+	@JoinColumn(name = "cd_parametro_fluxo", referencedColumnName = "cd_parametro_fluxo")
 	private List<FluxoEntity> fluxo;
 }
