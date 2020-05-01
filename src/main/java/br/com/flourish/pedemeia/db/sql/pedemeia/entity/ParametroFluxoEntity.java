@@ -1,5 +1,7 @@
 package br.com.flourish.pedemeia.db.sql.pedemeia.entity;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -21,5 +23,5 @@ public class ParametroFluxoEntity {
 	private String descricao; 
 	
 	@OneToMany
-	private FluxoEntity fluxo;
+	private List<FluxoEntity> fluxo;
 }
