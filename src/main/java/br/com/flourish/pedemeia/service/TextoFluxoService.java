@@ -2,7 +2,7 @@ package br.com.flourish.pedemeia.service;
 
 import java.util.Optional;
 
-import org.junit.platform.commons.util.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
