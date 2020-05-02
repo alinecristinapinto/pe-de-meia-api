@@ -20,15 +20,12 @@ public class UsuarioService {
 	@Autowired 
 	private UsuarioRepository repository;
 	
-	public UsuarioDTO criar(UsuarioEntity usuario) {
-		
-		try {
-			usuario = repository.save(usuario);
-		} catch(Exception ex) {
-			throw new BusinessException(ERRO_SALVAR_USUARIO.replace("%d", usuario.getEmail()));
-		}
-				
-		return new UsuarioDTO(usuario);
+	public UsuarioDTO criar(UsuarioEntity usuario) {			
+		return salvar(usuario);
+	}
+	
+	public UsuarioDTO atualizar(UsuarioEntity usuario) {
+		return salvar(usuario);
 	}
 
 	public UsuarioDTO buscarPorCodigo(Integer codigo) {
@@ -44,5 +41,16 @@ public class UsuarioService {
 			throw new BusinessException(ERRO_USUARIO_INEXISTENTE.replace("%d", codigo.toString()));
 		
 		return new UsuarioDTO(usuario.get());
+	}
+	
+	private UsuarioDTO salvar(UsuarioEntity usuario) {
+		
+		try {
+			usuario = repository.save(usuario);
+		} catch(Exception ex) {
+			throw new BusinessException(ERRO_SALVAR_USUARIO.replace("%d", usuario.getEmail()));
+		}
+				
+		return new UsuarioDTO(usuario);
 	}
 }

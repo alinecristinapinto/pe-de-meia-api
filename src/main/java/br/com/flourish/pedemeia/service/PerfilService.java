@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import br.com.flourish.pedemeia.controller.request.CadastrarPerfilEmUsuarioRequest;
 import br.com.flourish.pedemeia.controller.response.PerfilResponse;
 import br.com.flourish.pedemeia.db.sql.pedemeia.entity.PerfilEntity;
+import br.com.flourish.pedemeia.db.sql.pedemeia.entity.UsuarioEntity;
 import br.com.flourish.pedemeia.db.sql.pedemeia.repository.PerfilRepository;
 import br.com.flourish.pedemeia.dto.PerfilDTO;
 import br.com.flourish.pedemeia.exception.BusinessException;
@@ -19,6 +20,9 @@ import br.com.flourish.pedemeia.utils.ConstraintViolationUtils;
 
 @Service
 public class PerfilService {
+	
+	@Autowired 
+	private UsuarioService usuarioService;
 	
 	@Autowired 
 	private PerfilRepository repository;
@@ -39,6 +43,11 @@ public class PerfilService {
 	
 	public void cadastrarPerfilEmUsuario(CadastrarPerfilEmUsuarioRequest request) {
 		verificarRequest(request);
+		
+		UsuarioEntity usuario = new UsuarioEntity(usuarioService.buscarPorCodigo(request.getCodigoUsuario()));
+		usuario.setCodigoPerfil(request.getCodigoPerfil());
+		
+		usuarioService.atualizar(usuario);
 	}
 	
 	private void verificarRequest(CadastrarPerfilEmUsuarioRequest request) {

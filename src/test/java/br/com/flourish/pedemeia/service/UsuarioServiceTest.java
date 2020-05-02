@@ -40,6 +40,22 @@ public class UsuarioServiceTest {
 	}
 
 	@Test
+	public void atualizar_sucesso() {
+		Mockito.when(repository.save(Mockito.any(UsuarioEntity.class))).thenReturn(montarUsuarioEntity());
+
+		service.atualizar(montarUsuarioEntity());
+	}
+	
+	@Test(expected = BusinessException.class)
+	public void atualizar_erroCriarUsuario() {
+		Mockito.when(repository.save(Mockito.any(UsuarioEntity.class))).thenThrow(BusinessException.class);
+
+		UsuarioDTO response = service.atualizar(montarUsuarioEntity());
+		
+		Assert.assertEquals(montarUsuarioDTO(), response);
+	}
+
+	@Test
 	public void criar_sucesso() {
 		Mockito.when(repository.save(Mockito.any(UsuarioEntity.class))).thenReturn(montarUsuarioEntity());
 

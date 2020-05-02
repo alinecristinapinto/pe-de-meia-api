@@ -15,8 +15,10 @@ import org.mockito.MockitoAnnotations;
 import br.com.flourish.pedemeia.controller.request.CadastrarPerfilEmUsuarioRequest;
 import br.com.flourish.pedemeia.controller.response.PerfilResponse;
 import br.com.flourish.pedemeia.db.sql.pedemeia.entity.PerfilEntity;
+import br.com.flourish.pedemeia.db.sql.pedemeia.entity.UsuarioEntity;
 import br.com.flourish.pedemeia.db.sql.pedemeia.repository.PerfilRepository;
 import br.com.flourish.pedemeia.dto.PerfilDTO;
+import br.com.flourish.pedemeia.dto.UsuarioDTO;
 import br.com.flourish.pedemeia.exception.BusinessException;
 import br.com.flourish.pedemeia.exception.InvalidAttributeException;
 
@@ -27,6 +29,9 @@ public class PerfilServiceTest {
 	
 	@Mock
 	private PerfilRepository repository;
+	
+	@Mock
+	private UsuarioService usuarioService;
 	
 	@Before
 	public void setup() {
@@ -59,6 +64,30 @@ public class PerfilServiceTest {
 		service.cadastrarPerfilEmUsuario(new CadastrarPerfilEmUsuarioRequest());
 	}
 	
+	@Test(expected = BusinessException.class)
+	public void cadastrarPerfilEmUsuario_erroBuscarUsuario() {
+		Mockito.when(usuarioService.buscarPorCodigo(Mockito.anyInt())).thenThrow(BusinessException.class);
+		Mockito.when(usuarioService.atualizar(Mockito.any(UsuarioEntity.class))).thenReturn(montarUsuarioDTO());
+		
+		service.cadastrarPerfilEmUsuario(montarCadastrarPerfilEmUsuarioRequest());
+	}
+	
+	@Test(expected = BusinessException.class)
+	public void cadastrarPerfilEmUsuario_erroAtualizarUsuario() {
+		Mockito.when(usuarioService.buscarPorCodigo(Mockito.anyInt())).thenReturn(montarUsuarioDTO());
+		Mockito.when(usuarioService.atualizar(Mockito.any(UsuarioEntity.class))).thenThrow(BusinessException.class);
+		
+		service.cadastrarPerfilEmUsuario(montarCadastrarPerfilEmUsuarioRequest());
+	}
+	
+	@Test
+	public void cadastrarPerfilEmUsuario_sucesso() {
+		Mockito.when(usuarioService.buscarPorCodigo(Mockito.anyInt())).thenReturn(montarUsuarioDTO());
+		Mockito.when(usuarioService.atualizar(Mockito.any(UsuarioEntity.class))).thenReturn(montarUsuarioDTO());
+		
+		service.cadastrarPerfilEmUsuario(montarCadastrarPerfilEmUsuarioRequest());
+	}
+	
 	//----------------------------------------------------------------------------------------------------------------
 	
 	private List<PerfilEntity> montarPerfilEntity() {
@@ -75,5 +104,17 @@ public class PerfilServiceTest {
 		List<PerfilDTO> perfis = montarPerfilEntity().stream().map(PerfilDTO::new).collect(Collectors.toList());
 		return new PerfilResponse(perfis);
 	}
+	
+	private CadastrarPerfilEmUsuarioRequest montarCadastrarPerfilEmUsuarioRequest() {
+		return CadastrarPerfilEmUsuarioRequest.builder().codigoUsuario(1).codigoPerfil(1).build();
+	}
 
+	private UsuarioEntity montarUsuarioEntity() {
+		return UsuarioEntity.builder().codigo(1).email("email@email.com").nome("nome usuário").senha("hash senha")
+				.codigoNivel(1).codigoPerfil(1).build();
+	}
+
+	private UsuarioDTO montarUsuarioDTO() {
+		return new UsuarioDTO(montarUsuarioEntity());
+	}
 }
