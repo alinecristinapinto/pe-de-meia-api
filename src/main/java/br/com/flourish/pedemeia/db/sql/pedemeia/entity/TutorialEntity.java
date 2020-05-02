@@ -34,6 +34,6 @@ public class TutorialEntity {
 	
 	@OneToMany
 	@JoinColumn(name = "cd_tutorial", referencedColumnName = "cd_tutorial")
-	private List<EtapaTutorial> etapas;
+	private List<EtapaTutorialEntity> etapas;
 
 }

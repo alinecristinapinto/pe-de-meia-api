@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Entity
 @Table(name="TBL_ETAPA_TUTORIAL")
-public class EtapaTutorial {
+public class EtapaTutorialEntity {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
