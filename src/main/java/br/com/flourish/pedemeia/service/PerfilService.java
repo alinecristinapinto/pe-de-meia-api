@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import br.com.flourish.pedemeia.controller.response.PerfilResponse;
 import br.com.flourish.pedemeia.db.sql.pedemeia.entity.PerfilEntity;
@@ -12,6 +13,7 @@ import br.com.flourish.pedemeia.db.sql.pedemeia.repository.PerfilRepository;
 import br.com.flourish.pedemeia.dto.PerfilDTO;
 import br.com.flourish.pedemeia.exception.BusinessException;
 
+@Service
 public class PerfilService {
 	
 	@Autowired 
