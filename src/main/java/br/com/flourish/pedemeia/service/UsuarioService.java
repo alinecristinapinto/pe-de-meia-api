@@ -48,7 +48,7 @@ public class UsuarioService {
 		try {
 			usuario = repository.save(usuario);
 		} catch(Exception ex) {
-			throw new BusinessException(ERRO_SALVAR_USUARIO.replace("%d", usuario.getEmail()));
+			throw new BusinessException(ERRO_SALVAR_USUARIO.replace("%s", usuario.getEmail()));
 		}
 				
 		return new UsuarioDTO(usuario);

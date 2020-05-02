@@ -3,7 +3,9 @@ package br.com.flourish.pedemeia.controller;
 import br.com.flourish.pedemeia.controller.request.CadastroUsuarioRequest;
 import br.com.flourish.pedemeia.controller.response.PerfilResponse;
 import br.com.flourish.pedemeia.controller.response.ResponseDTO;
+import br.com.flourish.pedemeia.dto.UsuarioDTO;
 import br.com.flourish.pedemeia.exception.BusinessException;
+import br.com.flourish.pedemeia.exception.InvalidAttributeException;
 import br.com.flourish.pedemeia.service.CadastroService;
 import br.com.flourish.pedemeia.utils.ApiMessagesUtils;
 import io.swagger.annotations.Api;
@@ -30,15 +32,23 @@ public class CadastroController {
         ResponseDTO<Object> response = new ResponseDTO<>();
 
         try {
-            cadastroService.cadastrarUsuario(request.usuarioDTO);
-            response.setStatus(HttpStatus.OK.value());
+            UsuarioDTO usuario = UsuarioDTO.builder().email(request.getEmail())
+                    .nome(request.getNome()).senha(request.getSenha()).build();
+
+            cadastroService.cadastrarUsuario(usuario);
+
+            response.setStatus(HttpStatus.CREATED.value());
             response.setMessage(ApiMessagesUtils.RETORNO_SUCESSO);
         } catch(BusinessException ex) {
             response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
             response.setMessage(ex.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+        } catch (InvalidAttributeException ex){
+            response.setStatus(HttpStatus.BAD_REQUEST.value());
+            response.setMessage(ex.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         }
 
-        return ResponseEntity.status(HttpStatus.OK).body(response);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 }

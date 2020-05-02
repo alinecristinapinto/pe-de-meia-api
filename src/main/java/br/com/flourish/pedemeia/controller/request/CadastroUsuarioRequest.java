@@ -11,5 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CadastroUsuarioRequest {
-    public UsuarioDTO usuarioDTO;
+   private String email;
+   private String nome;
+   private String senha;
 }
