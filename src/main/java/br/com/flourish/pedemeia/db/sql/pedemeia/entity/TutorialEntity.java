@@ -29,6 +29,9 @@ public class TutorialEntity {
 	@Column(name="cd_tutorial", unique=true, nullable = false)
 	private Integer codigo;
 	
+	@Column(name="cd_ordem", nullable = false)
+	private Integer ordem;
+	
 	@Column(name="ds_tutorial", nullable = false)
 	private String descricao; 
 	

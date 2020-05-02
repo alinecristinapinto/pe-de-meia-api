@@ -16,6 +16,8 @@ import lombok.NoArgsConstructor;
 public class TutorialDTO {
 	
 	private Integer codigo;
+	
+	private Integer ordem;
 
 	private String tutorial; 
 	
@@ -23,6 +25,7 @@ public class TutorialDTO {
 	
 	public TutorialDTO(TutorialEntity tutorial) {
 		this.codigo = tutorial.getCodigo();
+		this.ordem = tutorial.getOrdem();
 		this.tutorial = tutorial.getDescricao();
 		this.etapas = tutorial.getEtapas().stream().map(EtapaTutorialDTO::new).collect(Collectors.toList());
 	}
