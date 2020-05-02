@@ -4,14 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.com.flourish.pedemeia.controller.request.CadastrarPerfilEmUsuarioRequest;
 import br.com.flourish.pedemeia.controller.response.PerfilResponse;
 import br.com.flourish.pedemeia.db.sql.pedemeia.entity.PerfilEntity;
 import br.com.flourish.pedemeia.db.sql.pedemeia.repository.PerfilRepository;
 import br.com.flourish.pedemeia.dto.PerfilDTO;
 import br.com.flourish.pedemeia.exception.BusinessException;
+import br.com.flourish.pedemeia.exception.InvalidAttributeException;
+import br.com.flourish.pedemeia.utils.ConstraintViolationUtils;
 
 @Service
 public class PerfilService {
@@ -31,5 +35,16 @@ public class PerfilService {
 		}
 		
 		return new PerfilResponse(perfis.stream().map(PerfilDTO::new).collect(Collectors.toList()));
+	}
+	
+	public void cadastrarPerfilEmUsuario(CadastrarPerfilEmUsuarioRequest request) {
+		verificarRequest(request);
+	}
+	
+	private void verificarRequest(CadastrarPerfilEmUsuarioRequest request) {
+		String inconsistencias = ConstraintViolationUtils.verificar(request);
+		
+		if(StringUtils.isNotBlank(inconsistencias))
+			throw new InvalidAttributeException(inconsistencias);
 	}
 }

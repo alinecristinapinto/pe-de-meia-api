@@ -12,11 +12,13 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
+import br.com.flourish.pedemeia.controller.request.CadastrarPerfilEmUsuarioRequest;
 import br.com.flourish.pedemeia.controller.response.PerfilResponse;
 import br.com.flourish.pedemeia.db.sql.pedemeia.entity.PerfilEntity;
 import br.com.flourish.pedemeia.db.sql.pedemeia.repository.PerfilRepository;
 import br.com.flourish.pedemeia.dto.PerfilDTO;
 import br.com.flourish.pedemeia.exception.BusinessException;
+import br.com.flourish.pedemeia.exception.InvalidAttributeException;
 
 public class PerfilServiceTest {
 	
@@ -46,6 +48,18 @@ public class PerfilServiceTest {
 		
 		Assert.assertEquals(montarPerfilResponse(), response);
 	}
+	
+	@Test(expected = InvalidAttributeException.class)
+	public void cadastrarPerfilEmUsuario_erroRequestNula() {
+		service.cadastrarPerfilEmUsuario(null);
+	}
+	
+	@Test(expected = InvalidAttributeException.class)
+	public void cadastrarPerfilEmUsuario_erroRequestInvalida() {
+		service.cadastrarPerfilEmUsuario(new CadastrarPerfilEmUsuarioRequest());
+	}
+	
+	//----------------------------------------------------------------------------------------------------------------
 	
 	private List<PerfilEntity> montarPerfilEntity() {
 		List<PerfilEntity> perfis = new ArrayList<>();
