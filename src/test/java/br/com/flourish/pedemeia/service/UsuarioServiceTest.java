@@ -10,10 +10,8 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
-import br.com.flourish.pedemeia.controller.response.TextoFluxoResponse;
 import br.com.flourish.pedemeia.db.sql.pedemeia.entity.UsuarioEntity;
 import br.com.flourish.pedemeia.db.sql.pedemeia.repository.UsuarioRepository;
-import br.com.flourish.pedemeia.dto.ParametroFluxoDTO;
 import br.com.flourish.pedemeia.dto.UsuarioDTO;
 import br.com.flourish.pedemeia.exception.BusinessException;
 
